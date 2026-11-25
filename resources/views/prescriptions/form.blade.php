@@ -1,0 +1,12 @@
+@extends('layouts.app')
+@section('title', 'Issue prescription | NHIMS')
+@section('page_title', 'Issue prescription')
+@section('content')
+    <div class="nhims-page-heading"><h1>Issue prescription</h1><p>{{ $consultation->patient?->name }} · {{ $consultation->diagnosis }}</p></div>
+    <section class="nhims-surface p-4"><form method="POST" action="{{ route('prescriptions.store', $consultation) }}">@csrf
+        <div id="prescription-items"><div class="prescription-item border rounded-3 p-3 mb-3"><div class="row g-3"><div class="col-md-6"><label class="form-label">Medicine</label><input name="items[0][medicine_name]" class="form-control" required></div><div class="col-md-3"><label class="form-label">Dose</label><input name="items[0][dose]" class="form-control" placeholder="e.g. 500 mg" required></div><div class="col-md-3"><label class="form-label">Route</label><input name="items[0][route]" class="form-control" placeholder="Oral" required></div><div class="col-md-4"><label class="form-label">Frequency</label><input name="items[0][frequency]" class="form-control" placeholder="Twice daily" required></div><div class="col-md-4"><label class="form-label">Duration</label><input name="items[0][duration]" class="form-control" placeholder="5 days" required></div><div class="col-md-4"><label class="form-label">Quantity</label><input type="number" min="1" name="items[0][quantity]" class="form-control" required></div><div class="col-12"><label class="form-label">Instructions</label><input name="items[0][instructions]" class="form-control"></div></div></div></div>
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="add-prescription-item"><i class="bi bi-plus me-1"></i>Add medicine</button>
+        <div class="d-flex justify-content-end gap-2 mt-4 pt-4 border-top"><a href="{{ route('consultations.show', $consultation) }}" class="btn btn-light">Cancel</a><button class="btn btn-primary" type="submit"><i class="bi bi-file-medical me-2"></i>Issue prescription</button></div>
+    </form></section>
+@push('scripts')<script>document.getElementById('add-prescription-item')?.addEventListener('click',()=>{const c=document.querySelector('.prescription-item').cloneNode(true);const i=document.querySelectorAll('.prescription-item').length;c.querySelectorAll('input').forEach(input=>{input.name=input.name.replace(/items\[0\]/,`items[${i}]`);input.value='';});document.getElementById('prescription-items').appendChild(c);});</script>@endpush
+@endsection

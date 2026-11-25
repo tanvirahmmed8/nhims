@@ -1,0 +1,7 @@
+@extends('layouts.app')
+@section('title', 'Dispense prescription | NHIMS')
+@section('page_title', 'Dispense prescription')
+@section('content')
+    <div class="nhims-page-heading"><h1>Dispense prescription</h1><p>{{ $prescription->patient?->name }} · Prescription #{{ $prescription->id }}</p></div>
+    <section class="nhims-surface p-4"><form method="POST" action="{{ route('pharmacy.dispense.store', $prescription) }}">@csrf<div class="table-responsive"><table class="table nhims-table align-middle"><thead><tr><th>Medicine</th><th>Prescribed quantity</th><th>Dispense quantity</th></tr></thead><tbody>@foreach($prescription->items as $item)<tr><td>{{ $item->medicine_name }}<div class="small text-secondary">{{ $item->dose }} · {{ $item->frequency }}</div></td><td>{{ $item->quantity }}</td><td><input type="hidden" name="items[{{ $loop->index }}][prescription_item_id]" value="{{ $item->id }}"><input type="number" min="0" max="{{ $item->quantity }}" name="items[{{ $loop->index }}][quantity]" value="{{ $item->quantity }}" class="form-control" required></td></tr>@endforeach</tbody></table></div><label for="notes" class="form-label">Dispensing notes</label><textarea id="notes" name="notes" rows="3" class="form-control"></textarea><div class="d-flex justify-content-end gap-2 mt-4 pt-4 border-top"><a href="{{ route('pharmacy.index') }}" class="btn btn-light">Cancel</a><button class="btn btn-primary" type="submit"><i class="bi bi-capsule me-2"></i>Confirm dispensing</button></div></form></section>
+@endsection

@@ -1,0 +1,7 @@
+@extends('layouts.app')
+@section('title', 'Publish laboratory result | NHIMS')
+@section('page_title', 'Publish laboratory result')
+@section('content')
+    <div class="nhims-page-heading"><h1>{{ $item->test?->name }}</h1><p>{{ $item->order?->patient?->name }} · {{ $item->test?->specimen_type }}</p></div>
+    <section class="nhims-surface p-4"><form method="POST" action="{{ route('laboratory.result.store', $item) }}">@csrf<div class="row g-3"><div class="col-md-6"><label for="value" class="form-label">Result value</label><input id="value" name="value" class="form-control" required></div><div class="col-md-3"><label for="unit" class="form-label">Unit</label><input id="unit" name="unit" value="{{ $item->test?->unit }}" class="form-control"></div><div class="col-md-3"><label for="reference_range" class="form-label">Reference range</label><input id="reference_range" name="reference_range" value="{{ $item->test?->reference_range }}" class="form-control"></div><div class="col-12"><label for="comment" class="form-label">Comment</label><textarea id="comment" name="comment" rows="3" class="form-control"></textarea></div></div><div class="d-flex justify-content-end gap-2 mt-4 pt-4 border-top"><a href="{{ route('laboratory.show', $item->order) }}" class="btn btn-light">Cancel</a><button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle me-2"></i>Publish result</button></div></form></section>
+@endsection
