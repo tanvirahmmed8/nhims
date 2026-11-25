@@ -42,7 +42,7 @@
                             <button type="submit" class="btn btn-primary btn-lg w-100">Sign in <i class="bi bi-arrow-right ms-2"></i></button>
                         </form>
 
-                        @if (app()->environment('local') && config('app.debug'))
+                        @if (app()->environment(['local', 'development']) && config('app.debug'))
                             @php
                                 $demoAccounts = [
                                     ['label' => 'Administrator', 'email' => 'admin@nhims.test', 'icon' => 'bi-shield-lock', 'class' => 'demo-admin'],
